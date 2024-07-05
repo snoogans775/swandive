@@ -1,7 +1,7 @@
-#Swandive
+# Swandive
 Space-faring fun for everybody
 A synthesizer party
-##What is this?
+## What is this?
 This is a collection of experimental Go programs
 Each program should be provided some kind of graphical interface
 Ideally, these interfaces should be accessible via web browsers
