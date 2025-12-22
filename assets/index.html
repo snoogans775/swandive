@@ -34,23 +34,40 @@
       align-items: center;
       margin-bottom: 0.5rem;
     }
-    .btn-hotspot {
-	  fill: rgba(255, 0, 0, 0.3); 
+    .btn-hotspot, #btn-bank-select, #btn-album-dec, #btn-album-inc {
+	  opacity: 0;
+	  pointer-events: all;
 	  stroke: red;
 	  stroke-width: 2;
 	  cursor: pointer;
-	  transition: fill 0.2s;
+    }
+
+    .lcd-container {
+	  width: 100%;
+	  height: 100%;
+	  overflow: hidden; /* This creates the "window" */
+	  white-space: nowrap;
+	  color: #333;      /* LCD Text Color */
+	  font-family: monospace;
+	  font-size: 3em;
+	  display: flex;
+	  align-items: center;
 	}
 
-	.btn-hotspot:hover {
-	  fill: rgba(255, 0, 0, 0.6);
+	.lcd-text {
+	  display: inline-block;
+	  animation: marquee 10s steps(40) infinite;
 	}
 
-	.casio-img {
-	  display: block;
-	  max-height: 400px;
-	  width: auto;
+	@keyframes marquee {
+	  to { transform: translateX(-40ch); }
 	}
+
+    .casio-img {
+        display: block;
+        max-height: 400px;
+        width: auto;
+    }
  
   </style>
 </head>
@@ -75,8 +92,17 @@
       <rect data-track-button-index="6" x="310" y="80" width="50" height="35" class="btn-hotspot" />
       <rect data-track-button-index="7" x="365" y="80" width="50" height="35" class="btn-hotspot" />
       <rect data-track-button-index="8" x="425" y="80" width="50" height="35" class="btn-hotspot" />
+
+      <rect id="btn-bank-select" x="515" y="80" width="50" height="35" />
       
-      <circle id="knob-vol" cx="800" cy="150" r="30" class="btn-hotspot" />
+      <rect id="btn-album-dec" x="660" y="170" width="50" height="35" />
+      <rect id="btn-album-inc" x="725" y="170" width="50" height="35" />
+
+      <foreignObject x="710" y="-60" width="195" height="140">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="lcd-container">
+          <div id="lcd-display" class="lcd-text">SYSTEM READY - INITIALIZING...</div>
+        </div>
+      </foreignObject>
       
     </svg>
   </div>

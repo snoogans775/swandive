@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"math"
 	"os"
 	"strconv"
 	"syscall/js"
@@ -17,6 +18,9 @@ const (
 	nTrackButtons          = 8
 	trackButtonClassName   = "btn-hotspot"
 	trackButtonIndexDataId = "trackButtonIndex"
+	bankSelectButtonID     = "btn-bank-select"
+	albumIncrementButtonID = "btn-album-inc"
+	albumDecrementButtonID = "btn-album-dec"
 )
 
 type Album struct {
@@ -35,7 +39,7 @@ type State struct {
 	Albums                []Album
 	CurrentAlbumIndex     int
 	CurrentTrackIndex     int
-	CurrentAlbumBank      int
+	CurrentAlbumBankIndex int
 	CurrentAlbumBankTotal int
 	IsPlaying             bool
 	AudioPlayer           js.Value
@@ -44,7 +48,8 @@ type State struct {
 
 // State methods
 func (s *State) SetCurrentTrackByButtonIndex(trackIndex int) error {
-	bankedValue := (s.CurrentAlbumBank * nTrackButtons) + trackIndex
+	bankedValue := (s.CurrentAlbumBankIndex * nTrackButtons) + trackIndex
+	slog.Info("Setting Track index based on bank and track button", "bankIndex", s.CurrentAlbumBankIndex, "track_button_index", trackIndex)
 	if bankedValue < 0 || bankedValue >= len(s.Albums[s.CurrentAlbumIndex].Tracks) {
 		return fmt.Errorf("track index of %d was out of bounds for the current album", bankedValue)
 	}
@@ -55,12 +60,20 @@ func (s *State) SetCurrentTrackByButtonIndex(trackIndex int) error {
 }
 
 func (s *State) IncrementBank() error {
-	//TODO: implement
+	s.ComputeCurrentAlbumBankTotal()
+	s.CurrentAlbumBankIndex = (s.CurrentAlbumBankIndex + 1) % s.CurrentAlbumBankTotal
 	return nil
 }
 
 func (s *State) IncrementAlbum() {
 	s.CurrentAlbumIndex = (s.CurrentAlbumIndex + 1) % len(s.Albums)
+	s.CurrentTrackIndex = 0
+	s.LoadTrack()
+}
+
+func (s *State) DecrementAlbum() {
+	total := len(s.Albums)
+	s.CurrentAlbumIndex = (s.CurrentAlbumIndex - 1 + total) % total
 	s.CurrentTrackIndex = 0
 	s.LoadTrack()
 }
@@ -79,7 +92,13 @@ func (s *State) LoadTrack() {
 			return nil
 		}))
 	}
-	s.Updates <- UIUpdate{Type: UpdatePlayback}
+	s.Updates <- UIUpdate{Type: UpdateTrack}
+}
+
+func (s *State) ComputeCurrentAlbumBankTotal() error {
+	nCurrentAlbumTracks := len(s.Albums[s.CurrentAlbumIndex].Tracks)
+	s.CurrentAlbumBankTotal = int(math.Ceil(float64(nCurrentAlbumTracks) / float64(nTrackButtons)))
+	return nil
 }
 
 // End State methods
@@ -97,7 +116,8 @@ func initData(s *State) error {
 	}
 	s.CurrentAlbumIndex = 0
 	s.CurrentTrackIndex = 0
-	s.IsPlaying = true
+	s.IsPlaying = false
+	s.ComputeCurrentAlbumBankTotal()
 	s.Updates = make(chan UIUpdate, 1)
 	s.Updates <- UIUpdate{Type: UpdateAlbum}
 
@@ -121,11 +141,11 @@ func registerUICallbacks(s *State) error {
 	}
 
 	// Read sound bank button events
-	buttons := document.Call("getElementsByClassName", trackButtonClassName)
-	if !buttons.Truthy() {
+	trackButtons := document.Call("getElementsByClassName", trackButtonClassName)
+	if !trackButtons.Truthy() {
 		return fmt.Errorf("Could not retrieve elements with class name: %s", trackButtonClassName)
 	}
-	onClickButton := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	onClickTrackButton := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		idStr := this.Get("dataset").Get(trackButtonIndexDataId).String()
 		slog.Info("Button was clicked", "track_button_id", idStr)
 		go func() {
@@ -137,10 +157,46 @@ func registerUICallbacks(s *State) error {
 		}()
 		return nil
 	})
-	// Register the callbacks
-	for i := 0; i < buttons.Get("length").Int(); i++ {
-		buttons.Call("item", i).Call("addEventListener", "click", onClickButton)
+	bankSelectButton := document.Call("getElementById", bankSelectButtonID)
+	if !bankSelectButton.Truthy() {
+		return fmt.Errorf("Could not retrieve element with id: %s", bankSelectButtonID)
 	}
+	onClickBankSelectButton := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		slog.Info("Bank select button was clicked")
+		s.IncrementBank()
+		return nil
+	})
+
+	// Read album select button events
+	btnInc := document.Call("getElementById", albumIncrementButtonID)
+	if !btnInc.Truthy() {
+		return fmt.Errorf("Could not retrieve element with id: %s", albumIncrementButtonID)
+	}
+	onClickAlbumIncrementButton := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		slog.Info("Button was clicked", "id", albumIncrementButtonID)
+		s.IncrementAlbum()
+		s.LoadTrack()
+		return nil
+	})
+
+	btnDec := document.Call("getElementById", albumDecrementButtonID)
+	if !btnDec.Truthy() {
+		return fmt.Errorf("Could not retrieve element with id: %s", albumDecrementButtonID)
+	}
+	onClickAlbumDecrementButton := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		slog.Info("Button was clicked", "id", albumDecrementButtonID)
+		s.DecrementAlbum()
+		s.LoadTrack()
+		return nil
+	})
+
+	// Register the callbacks
+	for i := 0; i < trackButtons.Get("length").Int(); i++ {
+		trackButtons.Call("item", i).Call("addEventListener", "click", onClickTrackButton)
+	}
+	bankSelectButton.Call("addEventListener", "click", onClickBankSelectButton)
+	btnInc.Call("addEventListener", "click", onClickAlbumIncrementButton)
+	btnDec.Call("addEventListener", "click", onClickAlbumDecrementButton)
 	return nil
 }
 
@@ -151,12 +207,21 @@ func registerUIListeners(s *State) error {
 	}
 	for update := range s.Updates {
 		switch update.Type {
-		case UpdateAlbum:
+		case UpdateAlbum, UpdateTrack:
 			album := s.Albums[s.CurrentAlbumIndex]
 			track := album.Tracks[s.CurrentTrackIndex]
-
 			displayString := fmt.Sprintf("%s - %s", album.Title, track.Title)
-			document.Call("getElementById", "lcd-display").Set("textContent", displayString)
+
+			window := js.Global()
+			lcdDisplay := document.Call("getElementById", "lcd-display")
+			style := lcdDisplay.Get("style")
+
+			computedStyle := window.Call("getComputedStyle", lcdDisplay)
+			currentAnimation := computedStyle.Call("getPropertyValue", "animation")
+			lcdDisplay.Set("textContent", displayString)
+			style.Call("setProperty", "animation", "none")
+			_ = lcdDisplay.Get("offsetHeight")
+			style.Call("setProperty", "animation", currentAnimation)
 		}
 	}
 
@@ -186,7 +251,7 @@ func main() {
 	initAudio(&state)
 
 	// 4. Load the first track
-	// This sends to the channel, but the loop above is now ready to receive!
+	// This sends to the channel, but the loop above is now ready to receive
 	slog.Info("Loading initial track metadata...")
 	state.LoadTrack()
 
@@ -197,6 +262,5 @@ func main() {
 
 	slog.Info("System online", "albums", len(state.Albums))
 
-	// Keep the WASM process alive
 	select {}
 }
