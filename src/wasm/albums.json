@@ -1,0 +1,17 @@
+[
+	{
+		"title": "The First Album",
+		"totalTracks": 2,
+		"coverUrl": "https://thumbs.dreamstime.com/z/monitor-test-crt-deviations-correct-color-rendition-31444952.jpg",
+		"tracks": [
+			{ 
+				"title": "Intro", 
+				"audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/The%20Unabridged%20Elegies%20of%20Dolphinicus%20IV/01%20-%20Opening%20Credits.mp3"
+			},
+			{ 
+				"title": "Theme",
+				"audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/The%20Unabridged%20Elegies%20of%20Dolphinicus%20IV/02%20-%20Dolphin's%20Apprentice.mp3"
+			}
+		]
+	}
+]
