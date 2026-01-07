@@ -1,4 +1,7 @@
-# WASM with Go
+# Album Remixing tool for the Swandive music archive
+This website uses the Go programming language with WASM as a compilation target.
+The templating is performed with HTML, as seen in /assets/index.html.
+No Javascript is used except for the `wasm_exec.js` functions that are necessary to load WASM.
 
 ## To build the Go code
 ```
