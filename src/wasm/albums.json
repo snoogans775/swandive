@@ -107,7 +107,7 @@
   },
   {
     "title": "Dr. Mario Championship Addiciton Deluxe 2",
-    "totalTracks": 12,
+    "totalTracks": 11,
     "coverUrl": "",
     "tracks": [
       {
@@ -153,10 +153,6 @@
       {
         "title": "The Prolapse",
         "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Dr.%20Mario%20Championship%20Addiciton%20Deluxe%202/The%20Prolapse.mp3"
-      },
-      {
-        "title": "dr-mario-championship-adiction-deluxe-two",
-        "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Dr.%20Mario%20Championship%20Addiciton%20Deluxe%202/dr-mario-championship-adiction-deluxe-two.jpg"
       }
     ]
   },
@@ -209,7 +205,7 @@
   },
   {
     "title": "Ninety Percent Hiss",
-    "totalTracks": 8,
+    "totalTracks": 7,
     "coverUrl": "",
     "tracks": [
       {
@@ -233,10 +229,6 @@
         "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Ninety%20Percent%20Hiss/Filter%20Upskilling.mp3"
       },
       {
-        "title": "NinetyPercentHiss",
-        "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Ninety%20Percent%20Hiss/NinetyPercentHiss.png"
-      },
-      {
         "title": "Thirsty Cactus",
         "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Ninety%20Percent%20Hiss/Thirsty%20Cactus.mp3"
       },
@@ -248,7 +240,7 @@
   },
   {
     "title": "Pure Shanty",
-    "totalTracks": 17,
+    "totalTracks": 16,
     "coverUrl": "",
     "tracks": [
       {
@@ -314,10 +306,6 @@
       {
         "title": "16 Velvet (Chocolate)",
         "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Pure%20Shanty/16%20Velvet%20%28Chocolate%29.mp3"
-      },
-      {
-        "title": "swandive_cover",
-        "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/Pure%20Shanty/swandive_cover.png"
       }
     ]
   },
@@ -402,7 +390,7 @@
   },
   {
     "title": "The Unabridged Elegies of Dolphinicus IV",
-    "totalTracks": 21,
+    "totalTracks": 20,
     "coverUrl": "",
     "tracks": [
       {
@@ -484,10 +472,6 @@
       {
         "title": "20 - Mammalicide: Last of the Daulphicans",
         "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/The%20Unabridged%20Elegies%20of%20Dolphinicus%20IV/20%20-%20Mammalicide%3A%20Last%20of%20the%20Daulphicans.mp3"
-      },
-      {
-        "title": "cover",
-        "audioUrl": "https://pub-a45a62d118874323b3ace83c57a9d6a7.r2.dev/The%20Unabridged%20Elegies%20of%20Dolphinicus%20IV/cover.jpg"
       }
     ]
   }

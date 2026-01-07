@@ -9,6 +9,10 @@ jq --arg base "$BASE_URL" '
   [
     # Iterate through the S3 contents
     .Contents[] | 
+    select(
+      # Exclude common images
+      (.Key | endswith(".jpeg") or endswith(".jpg") or endswith(".png") or endswith(".bmp")) | not
+    ) |
     {
       # Path parsing
       full_key: .Key,

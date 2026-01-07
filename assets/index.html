@@ -34,12 +34,14 @@
       align-items: center;
       margin-bottom: 0.5rem;
     }
-    .btn-hotspot, #btn-bank-select, #btn-album-dec, #btn-album-inc {
+    .btn-hotspot, .btn-piano-key, #btn-bank-select, #btn-album-dec, #btn-album-inc {
 	  opacity: 0;
 	  pointer-events: all;
-	  stroke: red;
-	  stroke-width: 2;
 	  cursor: pointer;
+    }
+    .btn-animated:active {
+    	background: black;
+	opacity: 0.2;
     }
 
     .lcd-container {
@@ -84,25 +86,41 @@
       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
       xmlns="http://www.w3.org/2000/svg">
       
-      <rect data-track-button-index="1" x="35" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="2" x="90" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="3" x="145" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="4" x="200" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="5" x="255" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="6" x="310" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="7" x="365" y="80" width="50" height="35" class="btn-hotspot" />
-      <rect data-track-button-index="8" x="425" y="80" width="50" height="35" class="btn-hotspot" />
+      <rect data-track-button-index="0" x="35" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="1" x="90" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="2" x="145" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="3" x="200" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="4" x="255" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="5" x="310" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="6" x="365" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
+      <rect data-track-button-index="7" x="425" y="80" width="50" height="35" class="btn-hotspot btn-animated" />
 
-      <rect id="btn-bank-select" x="515" y="80" width="50" height="35" />
+      <rect id="btn-bank-select" x="515" y="80" width="50" height="35" class="btn-animated" />
       
-      <rect id="btn-album-dec" x="660" y="170" width="50" height="35" />
-      <rect id="btn-album-inc" x="725" y="170" width="50" height="35" />
+      <rect id="btn-album-dec" x="660" y="170" width="50" height="35" class="btn-animated" />
+      <rect id="btn-album-inc" x="725" y="170" width="50" height="35" class="btn-animated" />
 
       <foreignObject x="710" y="-60" width="195" height="140">
         <div xmlns="http://www.w3.org/1999/xhtml" class="lcd-container">
           <div id="lcd-display" class="lcd-text">SYSTEM READY - INITIALIZING...</div>
         </div>
       </foreignObject>
+
+      <!-- keys -->
+      <rect data-piano-key-button-index="0" x="15" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="1" x="86" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="2" x="157" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="3" x="228" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="4" x="299" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="5" x="370" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="6" x="441" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="7" x="512" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="8" x="583" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="9" x="654" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="10" x="725" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="11" x="796" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="12" x="867" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
+      <rect data-piano-key-button-index="13" x="938" y="380" width="70" height="175" class="btn-piano-key btn-animated" />
       
     </svg>
   </div>
