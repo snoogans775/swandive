@@ -3,6 +3,13 @@ This website uses the Go programming language with WASM as a compilation target.
 The templating is performed with HTML, as seen in /assets/index.html.
 No Javascript is used except for the `wasm_exec.js` functions that are necessary to load WASM.
 
+## To get started, create an alias for your wasm_exec.js
+### Find your local wasm_exec.js for your Go installation
+Linux/MacOS: `find $(go env GOROOT) -name wasm_exec.js`
+Windows: `%USERPROFILE%\go\pkg\mod\github.com\golang\go@latest\misc\wasm\wasm_exec.js`
+### Create an alias in /assets
+Linux/MacOS: `ln -s $(go env GOROOT)/misc/wasm/wasm_exec.js ./assets/`
+Windows: `mklink assets/wasm_exec.js <PATH_TO_FILE>`
 ## To build the Go code
 ```
 cd ./src/wasm
